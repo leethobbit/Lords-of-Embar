@@ -1,5 +1,6 @@
 import os, sys
 import pytest
+import httpretty
 from webtest import TestApp
 
 # set appengine on path
@@ -24,6 +25,12 @@ from google.appengine.ext import testbed as _testbed
 def server():
     import app.server
     return TestApp(app.server.wsgi)
+
+@pytest.fixture
+def http_mock(request):
+    httpretty.enable()
+    request.addfinalizer(httpretty.disable)
+    return httpretty
 
 # datastore fixtures
 @pytest.fixture
