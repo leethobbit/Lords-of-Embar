@@ -1,4 +1,7 @@
+from __future__ import unicode_literals
 import os, sys
+
+# Testing Modules
 import pytest
 import httpretty
 from webtest import TestApp
@@ -17,6 +20,7 @@ try:
 except ImportError:
     print '[LOG] unable to import appengine_config'
 
+# Google App Engine modules
 from google.appengine.ext import ndb
 from google.appengine.ext import testbed as _testbed
 
@@ -26,6 +30,7 @@ def server():
     import app.server
     return TestApp(app.server.wsgi)
 
+# requests fixtures
 @pytest.fixture
 def http_mock(request):
     httpretty.enable()
