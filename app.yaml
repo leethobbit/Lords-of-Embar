@@ -1,0 +1,15 @@
+application: lords-of-embar
+threadsafe: 1
+runtime: python27
+version: pre-alpha
+module: default
+
+handlers:
+- url: /.*
+  script: app.server.wsgi
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
