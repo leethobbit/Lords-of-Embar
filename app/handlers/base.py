@@ -1,8 +1,19 @@
 from webapp2 import RequestHandler, cached_property
-from webapp2_extras import json, jinja2
+from webapp2_extras import json, jinja2, sessions
 
 
 class BaseRequestHandler(RequestHandler):
+    def dispatch(self):
+        self.session_store = sessions.get_store(request=self.request)
+        try:
+            RequestHandler.dispatch(self)
+        finally:
+            self.session_store.save_sessions(self.response)
+
+    @cached_property
+    def session(self):
+        return self.session_store.get_session()
+
     @cached_property
     def jinja2(self):
         jinja2.default_config.update(
