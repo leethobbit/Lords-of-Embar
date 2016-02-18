@@ -11,10 +11,12 @@ class ExampleRequestHandler(BaseRequestHandler):
             return self.json_view(test=test)
         if test == 'json-object-first':
             return self.json_view({'test': test}, test='skipped')
+        if test == 'html-template':
+            return self.html_view('template.html', test=test)
 
 app = WebTest(WSGIApplication([
     (r'/(.+)', ExampleRequestHandler)
-]))
+], config={'template_path': 'test/html'}))
 
 def test_get_json_view_test_object():
     response = app.get('/json-object')
@@ -42,3 +44,12 @@ def test_get_json_view_test_object_overrides_kwargs():
     expect(response.content_type).to.eq('application/json')
     expect(response.content_length).to.be.above(0)
     expect(response.json).to.eq({u'test': u'json-object-first'})
+
+def test_get_html_renders_template():
+    response = app.get('/html-template')
+
+    expect(response.status).to.eq('200 OK')
+    expect(response.status_int).to.eq(200)
+    expect(response.content_type).to.eq('text/html')
+    expect(response.content_length).to.be.above(0)
+    expect(response.text).to.eq('content: html-template')
