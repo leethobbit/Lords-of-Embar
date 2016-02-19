@@ -27,6 +27,7 @@ from google.appengine.ext import testbed as _testbed
 # application fixtures
 @pytest.fixture(scope='module')
 def server():
+    os.environ['EMBAR_SESSION'] = 'test-foo-bar'
     import app.server
     return TestApp(app.server.wsgi)
 

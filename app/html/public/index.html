@@ -1,5 +1,12 @@
 {% extends "public/public.layout" %}
 
+{% block title %}Lords of Embar{% endblock title %}
+
 {% block content %}
+
+{% for race in races %}
+<strong>{{ race.name }}</strong>
+<p>{{ race.description }}</p>
+{% endfor %}
 
 {% endblock content %}
