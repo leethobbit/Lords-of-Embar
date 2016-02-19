@@ -67,19 +67,15 @@ def test_get_html_renders_template():
     expect(response.content_length).to.be.above(0)
     expect(response.text).to.eq('content: html-template')
 
-def test_session_state_is_saved():
+def test_session_state_is_saveable_and_removeable():
     r1 = app.get('/session-start?key=foo')
-
     expect(r1.status).to.eq('200 OK')
 
     r2 = app.get('/session-read')
-
     expect(r2.json).to.eq({u'session': u'foo'})
 
     r3 = app.get('/session-end')
-
     expect(r3.status).to.eq('200 OK')
 
     r2 = app.get('/session-read')
-
     expect(r2.json).to.eq({u'session': None})

@@ -3,6 +3,12 @@ from webapp2_extras import json, jinja2, sessions
 
 
 class BaseRequestHandler(RequestHandler):
+    """ Application Request Handler
+        - supports json response
+        - supports html response via jinja2 templates
+        - supports model serialization
+        - supports model collection serialization
+    """
     def dispatch(self):
         self.session_store = sessions.get_store(request=self.request)
         try:
