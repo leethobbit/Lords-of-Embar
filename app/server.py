@@ -6,6 +6,7 @@ from .handlers import *
 config = {
     'template_path': 'app/html',
     'webapp2_extras.sessions': {
+        # webapp2 security token to hmac breaks when not converted
         'secret_key': os.environ['EMBAR_SESSION'].encode()
     }
 }

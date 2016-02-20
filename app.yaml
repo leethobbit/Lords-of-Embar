@@ -17,3 +17,12 @@ libraries:
 
 env_variables:
   EMBAR_SESSION: 'saip326e97qe73tj-%%_ys7p4t@e3ine=i#l5uxqw!oqo60x9%tkfe'
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^test/(.*/)?.*$
+- ^node_modules/(.*/)?.*$
