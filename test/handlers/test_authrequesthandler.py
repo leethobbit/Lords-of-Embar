@@ -6,7 +6,6 @@ from app.models import User
 
 get_fixture = lambda: {
     'race': 'race-01',
-    'email': 'TEST@test.com',
     'username': 'embar-TEST',
     'password': 'somepass',
     'passtest': 'somepass'
@@ -21,9 +20,7 @@ def test_register_when_valid_creates_user(testbed, server):
     expect(response.headers['Location']).to.eq('http://localhost/game/')
 
     user = User.query().get()
-    expect(user.email).to.eq('TEST@test.com')
     expect(user.username).to.eq('embar-TEST')
-    expect(user.email_lc).to.eq('test@test.com')
     expect(user.username_lc).to.eq('embar-test')
     expect(user.password).to.not_eq('somepass')
 

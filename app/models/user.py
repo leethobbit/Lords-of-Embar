@@ -18,7 +18,6 @@ class User(ndb.Model):
           - race
           - gold and turns
     """
-    email = ndb.StringProperty(required=True, indexed=False)
     username = ndb.StringProperty(required=True, indexed=False)
     password = ndb.StringProperty(required=True, indexed=False, validator=hash_password)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
@@ -26,7 +25,6 @@ class User(ndb.Model):
 
     profile = ndb.LocalStructuredProperty(UserProfile, required=True)
 
-    email_lc = ndb.ComputedProperty(lambda self: self.email.lower())
     username_lc = ndb.ComputedProperty(lambda self: self.username.lower())
 
     @classmethod
@@ -37,15 +35,13 @@ class User(ndb.Model):
         return None
 
     @classmethod
-    def exists(cls, email, username):
-        query = ndb.OR(cls.email_lc == email.lower(),
-                       cls.username_lc == username.lower())
+    def exists(cls, username):
+        query = cls.username_lc == username.lower()
         return cls.query(query).count() > 0
 
     @classmethod
-    def new(cls, email, username, password, race):
-        return cls(email=email,
-                   username=username,
+    def new(cls, username, password, race):
+        return cls(username=username,
                    password=password,
                    profile=UserProfile(race_id=race))
 

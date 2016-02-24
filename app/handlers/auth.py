@@ -14,17 +14,16 @@ class AuthRequestHandler(BaseRequestHandler):
         form = RegisterForm(self.request.POST)
 
         if not form.validate():
-            self.session.add_flash(form.errors, key='form_errors')
+            self.session.add_flash(form.errors, key='register_errors')
             return self.redirect('/')
 
-        if User.exists(form.email.data, form.username.data):
+        if User.exists(form.username.data):
             self.session.add_flash({
-                'conflict': ['User with this email or username exists.']
-            }, key='form_errors')
+                'username': ['User with this username exists.']
+            }, key='register_errors')
             return self.redirect('/')
 
-        user = User.new(form.email.data,
-                        form.username.data,
+        user = User.new(form.username.data,
                         form.password.data,
                         form.race.data)
         user.put()

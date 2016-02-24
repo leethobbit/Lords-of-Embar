@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import functools, logging
 from webapp2 import RequestHandler, cached_property
 from webapp2_extras import json, jinja2, sessions
@@ -8,7 +7,7 @@ from app.models import User
 def requires_login(fn):
     @functools.wraps(fn)
     def f(self, *args, **kwds):
-        if 'user' in self.session:
+        if u'user' in self.session:
             return fn(self, *a)
         return self.abort(403)
     return f
@@ -45,20 +44,22 @@ class BaseRequestHandler(RequestHandler):
         self.response.write(json.encode(content))
 
     def html_view(self, template, context=None, **kwds):
-        content = self.jinja2.render_template(template, **(context or kwds))
+        context = context or kwds
+        context.update(request = self.request, session = self.session)
+        content = self.jinja2.render_template(template, **context)
         self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
         self.response.write(content)
 
     def start_user_session(self, user):
         if type(user) is User and user.key:
-            self.session['user'] = user.key.urlsafe()
+            self.session[u'user'] = user.key.urlsafe()
 
     def end_user_session(self):
-        if 'user' in self.session:
-            del self.session['user']
+        if u'user' in self.session:
+            del self.session[u'user']
 
     def get_user_from_session(self):
-        user_key = self.session.get('user', None)
+        user_key = self.session.get(u'user', None)
         if user_key is not None:
             user = ndb.Key(urlsafe=self.session).get()
             if user is not None:

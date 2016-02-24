@@ -9,10 +9,6 @@ class RegisterForm(Form):
     race = StringField('race', [
         Required(), AnyOf(race.IDS)
     ])
-    email = StringField('email', [
-        Required(),
-        Email(message='Requires valid email address.')
-    ])
     username = StringField('username', [
         Required()
     ])

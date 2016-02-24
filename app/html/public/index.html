@@ -4,9 +4,69 @@
 
 {% block content %}
 
-{% for race in races %}
-<strong>{{ race.name }}</strong>
-<p>{{ race.description }}</p>
-{% endfor %}
+{% set flash = session.get_flashes('register_errors') %}
+
+<div class="ui container">
+    <h1 class="ui header">Lords of Embar</h1>
+
+    <div class="ui segments">
+        <div class="ui segment">
+            <div class="ui two column stackable grid">
+                <div class="column">
+                    <form class="ui form" method="POST" action="/auth/login">
+                        <h4 class="ui dividing header">Login</h4>
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" name="username">
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" name="password">
+                        </div>
+                        <button class="ui button" type="submit">Login</button>
+                    </form>
+                </div>
+                <div class="column">
+                    <form class="ui form {% if flash %}error{% endif %}" method="POST" action="/auth/register">
+                        <h4 class="ui dividing header">Register To Play</h4>
+                        {% if flash %}
+                        {% for key, value in flash[0][0].items() %}
+                            <div class="ui error message">
+                                <div class="header">{{ key.title() }}</div>
+                                <p>{{ value[0] }}</p>
+                            </div>
+                        {% endfor %}
+                        {% endif %}
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" name="username">
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" name="password">
+                        </div>
+                        <div class="field">
+                            <label>Password (Confirm)</label>
+                            <input type="password" name="passtest">
+                        </div>
+                        <div class="field">
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="race">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">&mdash; Choose a Race &mdash;</div>
+                                <div class="menu">
+                                {% for race in races %}
+                                    <div class="item" data-value="{{ race.id }}">{{ race.label }}</div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <button class="ui button" type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

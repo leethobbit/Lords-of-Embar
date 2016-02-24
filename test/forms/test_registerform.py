@@ -13,7 +13,6 @@ def test_register_form_no_data():
 
 def test_register_form_partial_is_invalid():
     form_data = MultiDict(
-        email='test@test.com',
         username='savage',
         password='somepass'
     )
@@ -24,24 +23,9 @@ def test_register_form_partial_is_invalid():
         'race': ['This field is required.']
     })
 
-def test_register_form_requires_email():
-    form_data = MultiDict(
-        race='race-01',
-        email='ausername',
-        username='savage',
-        password='somepass',
-        passtest='somepass'
-    )
-    form = RegisterForm(form_data)
-    expect(form.validate()).to.be.false()
-    expect(form.errors).to.eq({
-        'email': ['Requires valid email address.']
-    })
-
 def test_register_form_requires_valid_race():
     form_data = MultiDict(
         race='race-does-not-exist',
-        email='test@test.com',
         username='savage',
         password='somepass',
         passtest='somepass'
@@ -49,13 +33,12 @@ def test_register_form_requires_valid_race():
     form = RegisterForm(form_data)
     expect(form.validate()).to.be.false()
     expect(form.errors).to.eq({
-        'race': ['Invalid value, must be one of: race-01, race-02.']
+        'race': ['Invalid value, must be one of: race-01, race-02, race-03, race-04, race-05.']
     })
 
 def test_register_form_passwords_must_match():
     form_data = MultiDict(
         race='race-01',
-        email='test@test.com',
         username='savage',
         password='somepass',
         passtest='badpass'
@@ -69,7 +52,6 @@ def test_register_form_passwords_must_match():
 def test_register_form_is_okay():
     form_data = MultiDict(
         race='race-01',
-        email='test@test.com',
         username='savage',
         password='somepass',
         passtest='somepass'
