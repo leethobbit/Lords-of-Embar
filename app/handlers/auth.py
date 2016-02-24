@@ -23,9 +23,10 @@ class AuthRequestHandler(BaseRequestHandler):
             }, key='form_errors')
             return self.redirect('/')
 
-        user = User(email = form.email.data,
-                    username = form.username.data,
-                    password = form.password.data)
+        user = User.new(form.email.data,
+                        form.username.data,
+                        form.password.data,
+                        form.race.data)
         user.put()
         self.start_user_session(user)
         return self.redirect('/game/')

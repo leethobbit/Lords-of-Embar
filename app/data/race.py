@@ -18,6 +18,7 @@ RACES = frozenset([
     TUPLE('race-02', 'Orc', 'Orcs drool', 0, 0, 0, 0, 0, 0),
 ])
 
+IDS = [race.id for race in RACES]
 
 def get_by_id(race_id):
     for each in RACES:

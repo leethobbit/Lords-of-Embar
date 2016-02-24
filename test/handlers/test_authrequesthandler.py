@@ -5,6 +5,7 @@ from app.models import User
 
 
 get_fixture = lambda: {
+    'race': 'race-01',
     'email': 'TEST@test.com',
     'username': 'embar-TEST',
     'password': 'somepass',

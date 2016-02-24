@@ -38,6 +38,11 @@ SENTRY_TECH = (
 
 COMBINED = SIEGE_TECH + FORT_TECH + ECON_TECH + SPY_TECH + SENTRY_TECH
 
+OFF_IDS = [tech.id for tech in SIEGE_TECH ]
+DEF_IDS = [tech.id for tech in FORT_TECH  ]
+ECO_IDS = [tech.id for tech in ECON_TECH  ]
+SPY_IDS = [tech.id for tech in SPY_TECH   ]
+STY_IDS = [tech.id for tech in SENTRY_TECH]
 
 def get_by_id(tech_id):
     for each in COMBINED:
